@@ -1,0 +1,32 @@
+@import '../styles.scss';
+
+.spacer {
+  flex: 1;
+}
+
+.tela-inicial {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+
+  .toolbar {
+    height: 5%;
+    background-color: $color-core-border;
+    display: flex;
+    align-items: center;
+  }
+
+  .content {
+    height: 95%;
+    background-color: $color-core-background;
+  }
+
+}
+
+
+.botao {
+  height: 40px;
+  border-radius: 4px;
+
+}
