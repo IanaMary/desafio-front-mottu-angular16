@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonagemService } from '../../services/personagem.service';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-listar-personagens-favoritos',
@@ -20,7 +21,20 @@ export class ListarPersonagensFavoritosComponent implements OnInit {
   }
 
   carregarPersonagens() {
-    this.personagens = this.personagemService.getListarFilmesFavoritos();
+    let params = new HttpParams()
+      .set('favorito', 'true')   // filtro
+      .set('_limit', '10')        // limite de itens
+      .set('_page', this.paginaAtual.toString()); // página atual
+
+
+    this.personagemService.getListarFilmesFavoritos(params).subscribe({
+      next: (res: any) => {
+        this.personagens = res;
+      },
+      error: (err: any) => {
+        this.personagens = [];
+      }
+    });
   }
 
   trackById(index: number, item: any): number {
@@ -33,13 +47,24 @@ export class ListarPersonagensFavoritosComponent implements OnInit {
   }
 
   toggleFavorito(personagem: any) {
-    if (this.personagemService.estaFavorito(personagem)) {
-      this.personagemService.remover(personagem);
-      personagem.favorito = false;
+    personagem.favorito = !personagem.favorito;
+
+    personagem.id = String(personagem.id)
+    if (personagem.favorito) {
+      this.postAdicionarFavorito(personagem);
     } else {
-      this.personagemService.adicionar(personagem);
-      personagem.favorito = true;
+      this.deleteRemoverFavorito(personagem);
     }
+  }
+
+  postAdicionarFavorito(personagem: any) {
+    this.personagemService.postAdicionarFavorito(personagem)
+      .subscribe(() => { });
+  }
+
+  deleteRemoverFavorito(personagem: any) {
+    this.personagemService.deleteRemoverFavorito(personagem)
+      .subscribe(() => { });
   }
 
 }

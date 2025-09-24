@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PersonagemService } from '../../services/personagem.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class ListarPersonagensComponent implements OnInit {
   }
 
   trackById(index: number, item: any): number {
-    return item.id; // retorna o identificador único
+    return item.id;
   }
 
   paginacao(e: any) {
@@ -42,13 +42,24 @@ export class ListarPersonagensComponent implements OnInit {
   }
 
   toggleFavorito(personagem: any) {
-    if (this.personagemService.estaFavorito(personagem)) {
-      this.personagemService.remover(personagem);
-      personagem.favorito = false;
+    personagem.favorito = !personagem.favorito;
+
+    personagem.id = String(personagem.id)
+    if (personagem.favorito) {
+      this.postAdicionarFavorito(personagem);
     } else {
-      this.personagemService.adicionar(personagem);
-      personagem.favorito = true;
+      this.deleteRemoverFavorito(personagem);
     }
+  }
+
+  postAdicionarFavorito(personagem: any) {
+    this.personagemService.postAdicionarFavorito(personagem)
+      .subscribe(() => { });
+  }
+
+  deleteRemoverFavorito(personagem: any) {
+    this.personagemService.deleteRemoverFavorito(personagem)
+      .subscribe(() => { });
   }
 
 }

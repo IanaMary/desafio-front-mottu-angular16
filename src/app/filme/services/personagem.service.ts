@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 export class PersonagemService {
 
   url = environment.apiUrl;
+  urlJsonServer = 'http://localhost:3000/personagens';
   private readonly endpointPersonagens: string = 'character';
 
   favoritos: any[] = [];
@@ -25,20 +26,17 @@ export class PersonagemService {
   }
 
 
-  adicionar(personagem: any) {
-    if (!this.estaFavorito(personagem)) {
-      this.favoritos.push(personagem);
-      this.salvarNoLocalStorage();
-    }
+  postAdicionarFavorito(personagem: any) {
+    return this.http.post(`${this.urlJsonServer}`, personagem);
   }
 
-  remover(personagem: any) {
-    this.favoritos = this.favoritos.filter(f => f.id !== personagem.id);
-    this.salvarNoLocalStorage();
+  deleteRemoverFavorito(personagem: any) {
+    return this.http.delete(`${this.urlJsonServer}/${personagem.id}`);
   }
 
-  getListarFilmesFavoritos(): any[] {
-    return this.favoritos;
+
+  getListarFilmesFavoritos(params: HttpParams) {
+    return this.http.get<any[]>(this.urlJsonServer);
   }
 
   estaFavorito(personagem: any): boolean {
