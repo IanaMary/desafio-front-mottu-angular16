@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class FilmeService {
+export class PersonagemService {
 
   url = environment.apiUrl;
   private readonly endpointPersonagens: string = 'character';

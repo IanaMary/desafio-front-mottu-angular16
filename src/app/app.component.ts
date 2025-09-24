@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'desafio-front-mottu-angular16';
+
+
+  favorito = false;
+  mudancaPagina() {
+    this.favorito = !this.favorito;
+  }
 }

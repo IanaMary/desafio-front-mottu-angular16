@@ -27,8 +27,45 @@
 }
 
 
-.botao {
+.botoes {
+  display: flex;
+  border: 1px solid $color-core-content-low;
+  border-radius: 16px;
   height: 40px;
-  border-radius: 4px;
+  overflow: hidden;
+  margin-right: 1rem;
+}
 
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: none;
+  background: $color-neutral-surface;
+}
+
+
+.botao-tela-atual {
+  background: transparent;
+  color: $color-core-content-low;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  border-radius: 50%;
+  opacity: 1;
+  transform: rotate(0deg);
+  box-sizing: border-box;
+  border: 1px solid $color-core-content-low;
+  background-color: $color-neutral-surface;
+  color: $color-core-foreground;
+  font-weight: 700;
+  font-size: 14px;
 }

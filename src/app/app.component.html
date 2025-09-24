@@ -2,12 +2,16 @@
   <div class="toolbar" role="banner">
     <img width="114px" alt="Logo" src="assets/imagens/logo.svg" />
     <div class="spacer"></div>
-    <button mat-raised-button class="botao">
-      <mat-icon>home</mat-icon> Início
-    </button>
-    <button mat-raised-button class="botao">
-      <mat-icon>favorite</mat-icon> Favorito
-    </button>
+    <div class="botoes">
+      <button (click)="mudancaPagina()" class="botao" [ngClass]="{'botao-tela-atual': favorito}">
+        <mat-icon>home</mat-icon> Início
+      </button>
+      <button (click)="mudancaPagina()" class="botao" [ngClass]=" {'botao-tela-atual': !favorito}">
+        <mat-icon>favorite</mat-icon>
+        Favoritos
+        <span class="badge">3</span>
+      </button>
+    </div>
   </div>
   <div class="content" role="main">
     <app-personagem></app-personagem>

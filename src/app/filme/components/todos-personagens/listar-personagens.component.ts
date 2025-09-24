@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FilmeService } from '../../services/filme.service';
+import { PersonagemService } from '../../services/personagem.service';
 
 @Component({
   selector: 'app-listar-personagens',
@@ -10,7 +10,7 @@ export class ListarPersonagensComponent implements OnChanges {
   @Input() atualizar: boolean = false;
 
 
-  constructor(private readonly filmeService: FilmeService) { }
+  constructor(private readonly personagemService: PersonagemService) { }
 
   personagens: any[] = [];
   totalPersonagens = 0;
@@ -24,7 +24,7 @@ export class ListarPersonagensComponent implements OnChanges {
   }
 
   carregarPersonagens() {
-    this.filmeService.getListarFilmes(this.paginaAtual, this.nomePersonagem).subscribe({
+    this.personagemService.getListarFilmes(this.paginaAtual, this.nomePersonagem).subscribe({
       next: (res: any) => {
         this.personagens = res.results;
         this.totalPersonagens = res.info.count;

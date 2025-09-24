@@ -41,6 +41,7 @@ $color-core-content-low: #A4A4A4;
 $color-azul: #00B5CC;
 $color-verde: #B2DF28;
 $color-neutral-border: #3D3D3D;
+$color-neutral-surface: #FFFFFF;
 
 
 
@@ -74,6 +75,11 @@ body {
 body {
   margin: 0;
 }
+
+:root {
+  --radius-s: 4px;
+}
+
 
 
 h1,

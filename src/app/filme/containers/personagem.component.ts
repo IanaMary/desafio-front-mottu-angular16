@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FilmeService } from '../services/filme.service';
 
 @Component({
   selector: 'app-personagem',
