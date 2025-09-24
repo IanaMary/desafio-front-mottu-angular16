@@ -1,2 +1,2 @@
-<app-listar-personagens [atualizar]="pagAtual[0]"></app-listar-personagens>
-<app-listar-personagens-favoritos [atualizar]="pagAtual[1]"></app-listar-personagens-favoritos>
+<app-listar-personagens *ngIf="!telaFavoritos"></app-listar-personagens>
+<app-listar-personagens-favoritos *ngIf="telaFavoritos"></app-listar-personagens-favoritos>

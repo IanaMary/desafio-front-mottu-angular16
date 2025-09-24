@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AppService } from 'src/app/services/app.service';
 
 @Component({
   selector: 'app-personagem',
@@ -7,10 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PersonagemComponent implements OnInit {
 
-  pagAtual = [true, false];
+  telaFavoritos = false;
+  private subscription!: Subscription;
+
+  constructor(private readonly appService: AppService) { }
+
+  ngOnInit() {
+    this.subscription = this.appService.mudarPagina$.subscribe((res) => {
+      this.mudarPagina(res)
+    });
+  }
 
 
-  ngOnInit() { }
+  mudarPagina(bool: boolean) {
+    this.telaFavoritos = bool;
+  }
 
-
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

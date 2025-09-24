@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { PersonagemService } from '../../services/personagem.service';
 
 @Component({
@@ -6,9 +6,7 @@ import { PersonagemService } from '../../services/personagem.service';
   templateUrl: './listar-personagens.component.html',
   styleUrls: ['./listar-personagens.component.scss']
 })
-export class ListarPersonagensComponent implements OnChanges {
-  @Input() atualizar: boolean = false;
-
+export class ListarPersonagensComponent implements OnInit {
 
   constructor(private readonly personagemService: PersonagemService) { }
 
@@ -17,10 +15,8 @@ export class ListarPersonagensComponent implements OnChanges {
   paginaAtual = 1;
   nomePersonagem: string = '';
 
-  ngOnChanges(): void {
-    if (this.atualizar) {
-      this.carregarPersonagens();
-    }
+  ngOnInit(): void {
+    this.carregarPersonagens();
   }
 
   carregarPersonagens() {

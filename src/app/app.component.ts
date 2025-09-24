@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppService } from './services/app.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,11 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'desafio-front-mottu-angular16';
 
+  constructor(private readonly appService: AppService) { }
 
-  favorito = false;
+  telaFavoritos = false;
   mudancaPagina() {
-    this.favorito = !this.favorito;
+    this.telaFavoritos = !this.telaFavoritos;
+    this.appService.emitirMudarPagina(this.telaFavoritos);
   }
 }

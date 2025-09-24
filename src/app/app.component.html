@@ -3,10 +3,10 @@
     <img width="114px" alt="Logo" src="assets/imagens/logo.svg" />
     <div class="spacer"></div>
     <div class="botoes">
-      <button (click)="mudancaPagina()" class="botao" [ngClass]="{'botao-tela-atual': favorito}">
+      <button (click)="mudancaPagina()" class="botao" [ngClass]="{'botao-tela-atual': telaFavoritos}">
         <mat-icon>home</mat-icon> Início
       </button>
-      <button (click)="mudancaPagina()" class="botao" [ngClass]=" {'botao-tela-atual': !favorito}">
+      <button (click)="mudancaPagina()" class="botao" [ngClass]=" {'botao-tela-atual': !telaFavoritos}">
         <mat-icon>favorite</mat-icon>
         Favoritos
         <span class="badge">3</span>
