@@ -13,8 +13,9 @@
       <ng-container *ngFor="let personagem of personagens; trackBy: trackById">
         <mat-card appearance="outlined">
           <div class="container-img" [ngStyle]="{ 'background-image': 'url(' + personagem.image + ')' }">
-            <button class="botao-icon"> <mat-icon> {{ personagem.favorito ? 'favorite' : 'favorite_border'
-                }}</mat-icon></button>
+            <button (click)="toggleFavorito(personagem)" class="botao-icon"
+              [ngClass]="{'botao-icon-preto': personagem.favorito}">
+              <mat-icon> {{ personagem.favorito ? 'favorite' : 'favorite_border' }}</mat-icon></button>
           </div>
 
           <mat-card-header>

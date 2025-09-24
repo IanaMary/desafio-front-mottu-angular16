@@ -39,4 +39,14 @@ export class ListarPersonagensFavoritosComponent implements OnInit {
     this.carregarPersonagens();
   }
 
+  toggleFavorito(personagem: any) {
+    if (this.personagemService.estaFavorito(personagem)) {
+      this.personagemService.remover(personagem);
+      personagem.favorito = false;
+    } else {
+      this.personagemService.adicionar(personagem);
+      personagem.favorito = true;
+    }
+  }
+
 }

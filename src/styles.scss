@@ -108,8 +108,13 @@ body {
   justify-content: center;
   border: none;
   width: max-content;
-  background-color: transparent;
   color: $color-neutral-surface;
+  border-color: 1px solid $color-neutral-surface;
+}
+
+.botao-icon-preto {
+  border-color: 1px solid $color-core-border;
+  color: $color-core-border;
 }
 
 
