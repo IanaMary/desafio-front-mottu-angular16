@@ -1,0 +1,30 @@
+<div class="box">
+  <div class="box-titulo">
+    <span>Favoritos</span>
+  </div>
+
+  <ng-container *ngIf="personagens && personagens.length > 0; else vazio">
+    <div class="box-personagens">
+      <ng-container *ngFor="let personagem of personagens; trackBy: trackById">
+        <mat-card appearance="outlined">
+          <img mat-card-image [src]="personagem.image" alt="Foto do personagem">
+          <mat-card-header>
+            <mat-card-title>{{personagem.name}}</mat-card-title>
+            <mat-card-subtitle>{{personagem.gender}}</mat-card-subtitle>
+            <mat-card-subtitle>{{personagem.species}}</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+      </ng-container>
+    </div>
+    <mat-paginator (page)="paginacao($event)" [length]="totalPersonagens" [pageSize]="20" aria-label="Select page">
+    </mat-paginator>
+  </ng-container>
+
+  <ng-template #vazio>
+    <div class="sem-personagens">
+      <span class="texto texto-principal">Parece que você ainda não tem favoritos</span>
+      <span class="texto texto-secundario"> Volte à página inicial e escolha os melhores para você.</span>
+      <button class="botoes botao">Voltar ao início</button>
+    </div>
+  </ng-template>
+</div>

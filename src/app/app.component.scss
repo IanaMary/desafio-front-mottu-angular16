@@ -26,27 +26,6 @@
 
 }
 
-
-.botoes {
-  display: flex;
-  border: 1px solid $color-core-content-low;
-  border-radius: 16px;
-  height: 40px;
-  overflow: hidden;
-  margin-right: 1rem;
-}
-
-
-.botao {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  border: none;
-  background: $color-neutral-surface;
-}
-
-
 .botao-tela-atual {
   background: transparent;
   color: $color-core-content-low;

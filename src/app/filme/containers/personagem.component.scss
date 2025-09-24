@@ -4,6 +4,7 @@
 .box {
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100%; // garante que ocupe 100% do pai
   width: 100%;
   margin: auto;
@@ -19,7 +20,6 @@
     padding: 16px;
 
     span {
-
       font-family: $font-display;
       font-size: 48px;
       color: $color-azul;
@@ -41,8 +41,29 @@
 
   .sem-personagens {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    background: $color-core-border;
+    width: 720px;
+    height: 512px;
+    gap: 8px;
+
+    .texto {
+      width: 100%;
+      text-align: center;
+    }
+
+    .texto-principal {
+      font-weight: 700;
+      font-size: 24px;
+      color: $color-neutral-surface;
+    }
+
+    .texto-secundario {
+      font-weight: 400;
+      font-size: 18px;
+      color: $color-core-content-low;
+    }
   }
 }
