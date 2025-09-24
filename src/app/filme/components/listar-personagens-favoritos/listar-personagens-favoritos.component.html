@@ -7,7 +7,10 @@
     <div class="box-personagens">
       <ng-container *ngFor="let personagem of personagens; trackBy: trackById">
         <mat-card appearance="outlined">
-          <img mat-card-image [src]="personagem.image" alt="Foto do personagem">
+          <div class="container-img" [ngStyle]="{ 'background-image': 'url(' + personagem.image + ')' }">
+            <button class="botao-icon"> <mat-icon> {{ personagem.favorito ? 'favorite' : 'favorite_border'
+                }}</mat-icon></button>
+          </div>
           <mat-card-header>
             <mat-card-title>{{personagem.name}}</mat-card-title>
             <mat-card-subtitle>{{personagem.gender}}</mat-card-subtitle>
