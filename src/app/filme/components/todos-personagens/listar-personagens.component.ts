@@ -20,10 +20,10 @@ export class ListarPersonagensComponent implements OnInit {
   }
 
   carregarPersonagens() {
-    this.personagemService.getListarFilmes(this.paginaAtual, this.nomePersonagem).subscribe({
+    this.personagemService.getPersonagens(this.paginaAtual, this.nomePersonagem).subscribe({
       next: (res: any) => {
-        this.personagens = res.results;
-        this.totalPersonagens = res.info.count;
+        this.personagens = res.resultados;
+        this.totalPersonagens = res.totalPersonagens;
       },
       error: (err: any) => {
         this.personagens = [];
@@ -43,22 +43,11 @@ export class ListarPersonagensComponent implements OnInit {
 
   toggleFavorito(personagem: any) {
     personagem.favorito = !personagem.favorito;
-
-    personagem.id = String(personagem.id)
-    if (personagem.favorito) {
-      this.postAdicionarFavorito(personagem);
-    } else {
-      this.deleteRemoverFavorito(personagem);
-    }
+    this.putFavorito(personagem);
   }
 
-  postAdicionarFavorito(personagem: any) {
-    this.personagemService.postAdicionarFavorito(personagem)
-      .subscribe(() => { });
-  }
-
-  deleteRemoverFavorito(personagem: any) {
-    this.personagemService.deleteRemoverFavorito(personagem)
+  putFavorito(personagem: any) {
+    this.personagemService.putFavorito(personagem)
       .subscribe(() => { });
   }
 

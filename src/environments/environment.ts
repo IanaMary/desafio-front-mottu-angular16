@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://rickandmortyapi.com/api/'
+  apiUrlRick: 'https://rickandmortyapi.com/api/',
+  apiUrlJsonServe: 'http://localhost:3000/personagens'
 };

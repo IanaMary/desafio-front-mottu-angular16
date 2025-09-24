@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -7,8 +8,8 @@ import { environment } from 'src/environments/environment';
 })
 export class PersonagemService {
 
-  url = environment.apiUrl;
-  urlJsonServer = 'http://localhost:3000/personagens';
+  urlRick = environment.apiUrlRick;
+  urlJsonServer = environment.apiUrlJsonServe;
   private readonly endpointPersonagens: string = 'character';
 
   favoritos: any[] = [];
@@ -16,41 +17,72 @@ export class PersonagemService {
   constructor(private http: HttpClient) { }
 
 
-  getListarFilmes(page: number, name?: string) {
+  // busca personagens na API Rick
+  getListarPersonagensRick(page: number, name?: string) {
     let params = new HttpParams().set('page', page);
 
     if (name) {
-      params = params.set('name', name); // adiciona query string ?name=...
+      params = params.set('name', name);
     }
-    return this.http.get(`${this.url}${this.endpointPersonagens}`, { params });
+    return this.http.get(`${this.urlRick}${this.endpointPersonagens}`, { params });
   }
 
+  // busca personagens no db.json - json server
+  getListarPersonagensJsonServer(page: number, name?: string, favorito = false) {
+    let params = new HttpParams()
+      .set('_limit', '20')
+      .set('_page', page.toString());
+    if (favorito) {
+      params = params.set('favorito', favorito);
+    }
+    if (name) {
+      params = params.set('name', name);
+    }
+    return this.http.get<any[]>(this.urlJsonServer, { params });
+  }
 
+  // buscar no json-server, se não tiver, ele busca no rick
+  getPersonagens(page: number, name?: string): Observable<any> {
+    return this.getListarPersonagensJsonServer(page, name).pipe(
+      switchMap((personagensLocal: any) => {
+        if (personagensLocal && personagensLocal.length === 20) {
+          // já temos a página completa no json-server
+          const count = localStorage.getItem('totalPersonagens')
+          return of({ resultados: personagensLocal, totalPersonagens: count });
+        } else {
+          // busca na API Rick
+          return this.getListarPersonagensRick(page, name).pipe(
+            switchMap((rickData: any) => {
+              console.log('rickData => ', rickData.info.count)
+              localStorage.setItem('totalPersonagens', rickData.info.count)
+              const saves = rickData.results.map((p: any) => {
+                const personagemComPage = { ...p, page, id: String(p.id), favorito: false };
+                return this.postAdicionarFavorito(personagemComPage);
+              });
+              return forkJoin(saves).pipe(
+                map(() => ({ resultados: rickData.results, totalPersonagens: rickData.info.count }))
+              );
+            })
+          );
+        }
+      })
+    );
+  }
+
+  // adiciona um favorito db.json - json server
   postAdicionarFavorito(personagem: any) {
     return this.http.post(`${this.urlJsonServer}`, personagem);
   }
 
+  // deleta um favorito db.json - json server
   deleteRemoverFavorito(personagem: any) {
     return this.http.delete(`${this.urlJsonServer}/${personagem.id}`);
   }
 
-
-  getListarFilmesFavoritos(params: HttpParams) {
-    return this.http.get<any[]>(this.urlJsonServer);
+  // put um favorito db.json - json server
+  putFavorito(personagem: any) {
+    return this.http.put(`${this.urlJsonServer}/${personagem.id}`, personagem);
   }
 
-  estaFavorito(personagem: any): boolean {
-    return this.favoritos.some(f => f.id === personagem.id);
-  }
 
-  salvarNoLocalStorage() {
-    localStorage.setItem('favoritos', JSON.stringify(this.favoritos));
-  }
-
-  carregarDoLocalStorage() {
-    const data = localStorage.getItem('favoritos');
-    if (data) {
-      this.favoritos = JSON.parse(data);
-    }
-  }
 }
