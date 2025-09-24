@@ -1,0 +1,30 @@
+<div class="box">
+  <div class="box-titulo">
+    <span>INÍCIO</span>
+
+    <mat-form-field appearance="outline">
+      <input matInput>
+    </mat-form-field>
+  </div>
+
+  <ng-container *ngIf="personagens && personagens.length > 0; else vazio">
+    <div class="box-personagens">
+      <!-- Se a lista tiver itens -->
+      <ng-container *ngFor="let personagem of personagens">
+        <mat-card appearance="outlined">
+          <img mat-card-image [src]="personagem.image" alt="Foto do personagem">
+          <mat-card-header>
+            <mat-card-title>{{personagem.name}}</mat-card-title>
+            <mat-card-subtitle>{{personagem.species}}</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <ng-template #vazio>
+    <div class="sem-personagens">
+      <img src="assets/imagens/sem-filmes.svg" alt="Nenhum personagem encontrado">
+    </div>
+  </ng-template>
+</div>

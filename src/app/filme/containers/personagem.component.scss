@@ -1,0 +1,48 @@
+@import '../../../styles.scss';
+
+
+.box {
+  display: flex;
+  flex-direction: column;
+  height: 100%; // garante que ocupe 100% do pai
+  width: 100%;
+  margin: auto;
+
+  .box-titulo {
+    flex: 0 0 auto; // ocupa apenas o espaço necessário
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: 32px;
+    padding: 16px;
+
+    span {
+
+      font-family: $font-display;
+      font-size: 48px;
+      color: $color-azul;
+      -webkit-text-stroke: 2px $color-verde;
+    }
+
+  }
+
+  .box-personagens {
+    flex: 1 1 auto; // ocupa o restante do espaço
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    overflow-y: auto;
+    padding: 16px;
+  }
+
+  .sem-personagens {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+}
