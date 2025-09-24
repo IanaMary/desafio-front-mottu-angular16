@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
@@ -13,8 +13,13 @@ export class FilmeService {
   constructor(private http: HttpClient) { }
 
 
-  listarFilmes(page: number) {
-    return this.http.get(`${this.url}${this.endpointPersonagens}?page=${page}`);
+  getListarFilmes(page: number, name?: string) {
+    let params = new HttpParams().set('page', page);
+
+    if (name) {
+      params = params.set('name', name); // adiciona query string ?name=...
+    }
+    return this.http.get(`${this.url}${this.endpointPersonagens}`, { params });
   }
 
 

@@ -3,23 +3,26 @@
     <span>INÍCIO</span>
 
     <mat-form-field appearance="outline">
-      <input matInput>
+      <input matInput [(ngModel)]="nomePersonagem" (keyup)="carregarPersonagens()">
     </mat-form-field>
+
   </div>
 
   <ng-container *ngIf="personagens && personagens.length > 0; else vazio">
     <div class="box-personagens">
-      <!-- Se a lista tiver itens -->
-      <ng-container *ngFor="let personagem of personagens">
+      <ng-container *ngFor="let personagem of personagens; trackBy: trackById">
         <mat-card appearance="outlined">
           <img mat-card-image [src]="personagem.image" alt="Foto do personagem">
           <mat-card-header>
             <mat-card-title>{{personagem.name}}</mat-card-title>
+            <mat-card-subtitle>{{personagem.gender}}</mat-card-subtitle>
             <mat-card-subtitle>{{personagem.species}}</mat-card-subtitle>
           </mat-card-header>
         </mat-card>
       </ng-container>
     </div>
+    <mat-paginator (page)="paginacao($event)" [length]="totalPersonagens" [pageSize]="20" aria-label="Select page">
+    </mat-paginator>
   </ng-container>
 
   <ng-template #vazio>

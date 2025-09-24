@@ -16,6 +16,9 @@ import { ListarPersonagensFavoritosComponent } from './filme/components/listar-p
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +37,9 @@ import { CommonModule } from '@angular/common';
     MatCardModule,
     CommonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatPaginatorModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
