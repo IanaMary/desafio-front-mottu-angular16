@@ -110,11 +110,12 @@ body {
   width: max-content;
   color: $color-neutral-surface;
   border-color: 1px solid $color-neutral-surface;
+  background: transparent;
 }
 
 .botao-icon-preto {
-  border-color: 1px solid $color-core-border;
-  color: $color-core-border;
+  border-color: 1px solid $color-core-border !important;
+  color: $color-core-border !important;
 }
 
 
@@ -196,6 +197,7 @@ body {
 mat-card {
   position: relative; // importante para posicionar o botão sobre o card
   width: 224px;
+  height: 346px;
 
   img {
     width: 100%;

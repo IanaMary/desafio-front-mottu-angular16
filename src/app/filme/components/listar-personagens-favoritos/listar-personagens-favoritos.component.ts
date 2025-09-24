@@ -15,19 +15,12 @@ export class ListarPersonagensFavoritosComponent implements OnInit {
   paginaAtual = 1;
   nomePersonagem: string = '';
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.carregarPersonagens();
+  }
 
   carregarPersonagens() {
-    this.personagemService.getListarFilmes(this.paginaAtual, this.nomePersonagem).subscribe({
-      next: (res: any) => {
-        this.personagens = res.results;
-        this.totalPersonagens = res.info.count;
-      },
-      error: (err: any) => {
-        this.personagens = [];
-      }
-    });
-
+    this.personagens = this.personagemService.getListarFilmesFavoritos();
   }
 
   trackById(index: number, item: any): number {
