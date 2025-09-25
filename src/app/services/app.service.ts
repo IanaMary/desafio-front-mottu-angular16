@@ -6,11 +6,12 @@ import { Subject } from 'rxjs';
 })
 export class AppService {
 
-  private mudarPagina = new Subject<boolean>();
+  mudarPagina = new Subject<{ valor: boolean, origem: string }>();
   mudarPagina$ = this.mudarPagina.asObservable();
 
-  emitirMudarPagina(bool: boolean) {
-    this.mudarPagina.next(bool);
+  emitirMudarPagina(valor: boolean, origem: string) {
+    this.mudarPagina.next({ valor, origem });
   }
+
 
 }

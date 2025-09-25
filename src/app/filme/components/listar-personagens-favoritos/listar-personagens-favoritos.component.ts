@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonagemService } from '../../services/personagem.service';
 import { HttpParams } from '@angular/common/http';
+import { AppService } from 'src/app/services/app.service';
 
 @Component({
   selector: 'app-listar-personagens-favoritos',
@@ -9,10 +10,12 @@ import { HttpParams } from '@angular/common/http';
 })
 export class ListarPersonagensFavoritosComponent implements OnInit {
 
-  constructor(private readonly personagemService: PersonagemService) { }
+  constructor(private readonly personagemService: PersonagemService,
+    private readonly appService: AppService,
+  ) { }
 
   personagens: any[] = [];
-  totalPersonagens = 0;
+  totalPersonagens = sessionStorage.getItem('totalFavoritos') || '0';
   paginaAtual = 1;
   nomePersonagem: string = '';
 
@@ -47,6 +50,18 @@ export class ListarPersonagensFavoritosComponent implements OnInit {
 
   putFavorito(personagem: any) {
     this.personagemService.putFavorito(personagem)
-      .subscribe(() => { });
+      .subscribe(() => {
+        if (personagem.favorito) {
+          this.personagemService.incrementarTotalFavoritos();
+        } else {
+          this.personagemService.decrementarTotalFavoritos();
+        }
+        this.personagemService.emitirTotalFavoritos();
+      });
   }
+
+  voltarInicio() {
+    this.appService.emitirMudarPagina(false, 'listar');
+  }
+
 }

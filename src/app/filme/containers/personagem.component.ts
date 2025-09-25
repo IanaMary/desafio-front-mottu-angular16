@@ -16,7 +16,7 @@ export class PersonagemComponent implements OnInit {
 
   ngOnInit() {
     this.subscription = this.appService.mudarPagina$.subscribe((res) => {
-      this.mudarPagina(res)
+      this.mudarPagina(res.valor)
     });
   }
 

@@ -23,6 +23,11 @@ export class AppComponent implements OnInit {
     this.subscription = this.personagemService.totalFavoritos$.subscribe(() => {
       this.totalFavoritos = sessionStorage.getItem('totalFavoritos') || '0';
     });
+    this.subscription = this.appService.mudarPagina$.subscribe((res) => {
+      if (res.origem !== 'app') {
+        this.telaFavoritos = false;
+      }
+    });
     this.carregarTotalFavoritos();
   }
 
@@ -41,7 +46,7 @@ export class AppComponent implements OnInit {
 
   mudancaPagina() {
     this.telaFavoritos = !this.telaFavoritos;
-    this.appService.emitirMudarPagina(this.telaFavoritos);
+    this.appService.emitirMudarPagina(this.telaFavoritos, 'app');
   }
 
   ngOnDestroy() {
