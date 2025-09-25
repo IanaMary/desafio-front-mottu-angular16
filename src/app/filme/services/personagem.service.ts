@@ -27,9 +27,7 @@ export class PersonagemService {
   // busca personagens na API Rick
   getListarPersonagensRick(page: number, name?: string) {
     let params = new HttpParams()
-      .set('_page', page)
-      .set('_sort', 'name')
-      .set('_order', 'asc');
+      .set('page', page)
 
     if (name) {
       params = params.set('name', name);
@@ -40,10 +38,10 @@ export class PersonagemService {
   // busca personagens no db.json - json server
   getListarPersonagensJsonServer(page: number, name?: string, favorito = false) {
     let params = new HttpParams()
-      .set('_limit', '20')
-      .set('_page', page.toString())
-      .set('_sort', 'name')
-      .set('_order', 'asc');
+      .set('limit', '20')
+      .set('page', String(page))
+      .set('sort', 'id')
+      .set('order', 'asc');
     if (favorito) {
       params = params.set('favorito', favorito);
     }
@@ -100,7 +98,7 @@ export class PersonagemService {
   // Retorna total de favoritos, inicializando se não existir
   getTotalFavoritos(): Observable<any> {
     let params = new HttpParams()
-      .set('favorito', 'true'); // só precisa do header
+      .set('favorito', 'true');
     return this.http.get<any[]>(this.urlJsonServer, { params });
   }
 
