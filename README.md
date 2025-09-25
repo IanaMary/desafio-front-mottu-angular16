@@ -13,7 +13,7 @@
   [https://rickandmortyapi.com/api/character](https://rickandmortyapi.com/api/character)
 
 - Como a API original não permite salvar favoritos (não há suporte a `PUT` ou `POST`),  
-  usamos o **json-server** com um arquivo `db.json` **para auxiliar na aplicação**, permitindo salvar, listar e remover favoritos localmente.
+  usei o **json-server** com um arquivo `db.json` **para auxiliar na aplicação**, permitindo salvar, listar e remover favoritos localmente.
 
 ---
 
