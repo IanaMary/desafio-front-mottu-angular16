@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, map, Observable, of, Subject, switchMap } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, Observable, of, Subject, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -9,12 +9,14 @@ import { environment } from 'src/environments/environment';
 export class PersonagemService {
 
   urlRick = environment.apiUrlRick;
-  urlJsonServer = environment.apiUrlJsonServe;
 
   endpointPersonagens: string = 'character';
 
   totalFavoritos = new Subject<void>();
   totalFavoritos$ = this.totalFavoritos.asObservable();
+
+  favoritos$ = new BehaviorSubject<any[]>([]);
+  favoritosObs$ = this.favoritos$.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -35,84 +37,34 @@ export class PersonagemService {
     return this.http.get(`${this.urlRick}${this.endpointPersonagens}`, { params });
   }
 
-  // busca personagens no db.json - json server
-  getListarPersonagensJsonServer(page: number, name?: string, favorito = false) {
-    let params = new HttpParams()
-      .set('limit', '20')
-      .set('page', String(page))
-      .set('sort', 'id')
-      .set('order', 'asc');
-    if (favorito) {
-      params = params.set('favorito', favorito);
-    }
-    if (name) {
-      params = params.set('name', name);
-    }
-
-    return this.http.get<any[]>(this.urlJsonServer, { params });
+  getListarPersonagensFavoritos(page: number) {
+    const favoritos = this.favoritos$.value; // array completo de favoritos
+    const inicio = (page - 1) * 20;
+    const fim = inicio + 20;
+    return favoritos.slice(inicio, fim);
   }
 
-  // buscar no json-server, se não tiver, ele busca no rick
-  getPersonagens(page: number, name?: string): Observable<any> {
-    return this.getListarPersonagensJsonServer(page, name, false).pipe(
-      switchMap((personagensLocal: any) => {
-        if (personagensLocal && personagensLocal.length === 20) {
-          // já temos a página completa no json-server
-          const count = localStorage.getItem('totalPersonagens');
-          return of({ resultados: personagensLocal, totalPersonagens: count });
-        } else {
-          // busca na API Rick
-          return this.getListarPersonagensRick(page, name).pipe(
-            switchMap((rickData: any) => {
-              localStorage.setItem('totalPersonagens', rickData.info.count)
-              const saves = rickData.results.map((p: any) => {
-                const personagemComPage = { ...p, page, id: String(p.id), favorito: false };
-                return this.postAdicionarFavorito(personagemComPage);
-              });
-              return forkJoin(saves).pipe(
-                map(() => ({ resultados: rickData.results, totalPersonagens: rickData.info.count }))
-              );
-            })
-          );
-        }
-      })
-    );
+  adicionar(personagem: any) {
+    const novosFavoritos = [...this.favoritos$.value, personagem];
+    this.favoritos$.next(novosFavoritos);
+    this.countTotalFavoritos();
   }
 
-  // adiciona um favorito db.json - json server
-  postAdicionarFavorito(personagem: any) {
-    return this.http.post(`${this.urlJsonServer}`, personagem);
-  }
-
-  // deleta um favorito db.json - json server
-  deleteRemoverFavorito(personagem: any) {
-    return this.http.delete(`${this.urlJsonServer}/${personagem.id}`);
-  }
-
-  // put um favorito db.json - json server
-  putFavorito(personagem: any) {
-    return this.http.put(`${this.urlJsonServer}/${personagem.id}`, personagem);
+  remover(personagem: any) {
+    const novosFavoritos = this.favoritos$.value.filter(f => f.id !== personagem.id);
+    this.favoritos$.next(novosFavoritos);
+    this.countTotalFavoritos();
   }
 
 
-  // Retorna total de favoritos, inicializando se não existir
-  getTotalFavoritos(): Observable<any> {
-    let params = new HttpParams()
-      .set('favorito', 'true');
-    return this.http.get<any[]>(this.urlJsonServer, { params });
+  countTotalFavoritos() {
+    const total = String(this.favoritos$.value.length);
+    sessionStorage.setItem('totalFavoritos', total);
+    this.emitirTotalFavoritos();
   }
 
-  // Incrementa total de favoritos
-  incrementarTotalFavoritos() {
-    const count = Number(sessionStorage.getItem('totalFavoritos') || '0');
-    sessionStorage.setItem('totalFavoritos', String(count + 1));
+  estaFavorito(id: number) {
+    return this.favoritos$.value.some(f => f.id === id);
   }
-
-  // Decrementa total de favoritos
-  decrementarTotalFavoritos() {
-    const count = Number(sessionStorage.getItem('totalFavoritos') || '0');
-    sessionStorage.setItem('totalFavoritos', String(Math.max(0, count - 1)));
-  }
-
 
 }

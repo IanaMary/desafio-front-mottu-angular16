@@ -13,7 +13,7 @@
   [https://rickandmortyapi.com/api/character](https://rickandmortyapi.com/api/character)
 
 - Como a API original não permite salvar favoritos (não há suporte a `PUT` ou `POST`),  
-  usei o **json-server** com um arquivo `db.json` **para auxiliar na aplicação**, permitindo salvar, listar e remover favoritos localmente.
+   os favoritos são gerenciados diretamente no front-end usando **RxJS** (`BehaviorSubject`). Isso permite **adicionar, listar e remover favoritos** de forma reativa, mantendo o estado mesmo ao navegar entre páginas.
 
 ---
 
@@ -34,8 +34,5 @@ npm start
 ## Scripts (`package.json`)
 
 ```json
-"reset-db": "echo '{\"personagens\":[]}' > db.json",
-"start": "npm run reset-db && concurrently \"npx json-server --watch db.json --port 3000\" \"npx ng serve\"",
-"build": "ng build",
-"watch": "ng build --watch --configuration development"
+"start": "npx ng serve",
 ```

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonagemService } from '../../services/personagem.service';
+import { Observable, take } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-listar-personagens',
@@ -8,29 +10,39 @@ import { PersonagemService } from '../../services/personagem.service';
 })
 export class ListarPersonagensComponent implements OnInit {
 
-  constructor(private readonly personagemService: PersonagemService) { }
-
+  ehFavorito$!: Observable<boolean>;
   personagens: any[] = [];
   totalPersonagens = 0;
   paginaAtual = 1;
   nomePersonagem: string = '';
+
+
+  constructor(private readonly personagemService: PersonagemService) { }
+
 
   ngOnInit(): void {
     this.carregarPersonagens();
   }
 
   carregarPersonagens() {
-    this.personagemService.getPersonagens(this.paginaAtual, this.nomePersonagem).subscribe({
-      next: (res: any) => {
-        this.personagens = res.resultados;
-        this.totalPersonagens = res.totalPersonagens;
-      },
-      error: (err: any) => {
-        this.personagens = [];
-      }
-    });
+    this.personagemService
+      .getListarPersonagensRick(this.paginaAtual, this.nomePersonagem)
+      .subscribe({
+        next: (res: any) => {
+          this.personagens = res.results.map((p: any) => ({
+            ...p,
+            favorito: this.personagemService.estaFavorito(p.id) // marca true se estiver nos favoritos
+          }));
 
+          this.totalPersonagens = res.info.count;
+        },
+        error: () => {
+          this.personagens = [];
+          this.totalPersonagens = 0;
+        }
+      });
   }
+
 
   trackById(index: number, item: any): number {
     return item.id;
@@ -43,19 +55,11 @@ export class ListarPersonagensComponent implements OnInit {
 
   toggleFavorito(personagem: any) {
     personagem.favorito = !personagem.favorito;
-    this.putFavorito(personagem);
-  }
-
-  putFavorito(personagem: any) {
-    this.personagemService.putFavorito(personagem)
-      .subscribe(() => {
-        if (personagem.favorito) {
-          this.personagemService.incrementarTotalFavoritos();
-        } else {
-          this.personagemService.decrementarTotalFavoritos();
-        }
-        this.personagemService.emitirTotalFavoritos();
-      });
+    if (personagem.favorito) {
+      this.personagemService.adicionar(personagem);
+    } else {
+      this.personagemService.remover(personagem);
+    }
   }
 
 }

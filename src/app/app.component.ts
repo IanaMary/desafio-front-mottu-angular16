@@ -34,21 +34,9 @@ export class AppComponent implements OnInit {
         this.telaFavoritos = false;
       }
     });
-    this.carregarTotalFavoritos();
   }
 
-  carregarTotalFavoritos() {
-    this.personagemService.getTotalFavoritos().subscribe({
-      next: (res: any) => {
-        this.totalFavoritos = String(res.length);
-        sessionStorage.setItem('totalFavoritos', this.totalFavoritos);
-      },
-      error: (err: any) => {
-        this.totalFavoritos = '0';
-        sessionStorage.setItem('totalFavoritos', '0');
-      }
-    });
-  }
+
 
   mudancaPagina() {
     this.telaFavoritos = !this.telaFavoritos;

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonagemService } from '../../services/personagem.service';
-import { HttpParams } from '@angular/common/http';
 import { AppService } from 'src/app/services/app.service';
 
 @Component({
@@ -10,32 +9,29 @@ import { AppService } from 'src/app/services/app.service';
 })
 export class ListarPersonagensFavoritosComponent implements OnInit {
 
-  constructor(private readonly personagemService: PersonagemService,
+  personagens: any[] = [];
+  totalFavoritos: number = Number(sessionStorage.getItem('totalFavoritos') || '0');
+  paginaAtual = 1;
+  limite = 20;
+  nomePersonagem: string = '';
+
+  constructor(
+    private readonly personagemService: PersonagemService,
     private readonly appService: AppService,
   ) { }
-
-  personagens: any[] = [];
-  totalPersonagens = sessionStorage.getItem('totalFavoritos') || '0';
-  paginaAtual = 1;
-  nomePersonagem: string = '';
 
   ngOnInit(): void {
     this.carregarPersonagens();
   }
 
   carregarPersonagens() {
-    this.personagemService.getListarPersonagensJsonServer(this.paginaAtual, '', true).subscribe({
-      next: (res: any) => {
-        this.personagens = res;
-      },
-      error: (err: any) => {
-        this.personagens = [];
-      }
-    });
+    this.personagens = this.personagemService.getListarPersonagensFavoritos(this.paginaAtual);
+    this.totalFavoritos = this.personagemService.favoritos$.value.length;
   }
 
+
   trackById(index: number, item: any): number {
-    return item.id; // retorna o identificador único
+    return item.id;
   }
 
   paginacao(e: any) {
@@ -45,19 +41,11 @@ export class ListarPersonagensFavoritosComponent implements OnInit {
 
   toggleFavorito(personagem: any) {
     personagem.favorito = !personagem.favorito;
-    this.putFavorito(personagem);
-  }
-
-  putFavorito(personagem: any) {
-    this.personagemService.putFavorito(personagem)
-      .subscribe(() => {
-        if (personagem.favorito) {
-          this.personagemService.incrementarTotalFavoritos();
-        } else {
-          this.personagemService.decrementarTotalFavoritos();
-        }
-        this.personagemService.emitirTotalFavoritos();
-      });
+    if (personagem.favorito) {
+      this.personagemService.adicionar(personagem);
+    } else {
+      this.personagemService.remover(personagem);
+    }
   }
 
   voltarInicio() {
