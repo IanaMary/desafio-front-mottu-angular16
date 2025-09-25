@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonagemService } from '../../services/personagem.service';
-import { Observable, take } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-listar-personagens',
