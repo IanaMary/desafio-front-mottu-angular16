@@ -80,6 +80,32 @@ body {
   --radius-s: 4px;
 }
 
+/* Scroll Global */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: $color-verde $color-azul;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: $color-azul;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $color-azul;
+  border-radius: 6px;
+  border: 2px solid $color-verde;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: lighten($color-azul, 10%);
+  border-color: darken($color-verde, 10%);
+}
+
 
 .botoes {
   display: flex;
@@ -204,4 +230,8 @@ mat-card {
     height: auto;
   }
 
+}
+
+mat-paginator {
+  margin-bottom: 1rem;
 }
