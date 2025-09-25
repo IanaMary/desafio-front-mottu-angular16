@@ -48,7 +48,14 @@ export class ListarPersonagensComponent implements OnInit {
 
   putFavorito(personagem: any) {
     this.personagemService.putFavorito(personagem)
-      .subscribe(() => { });
+      .subscribe(() => {
+        if (personagem.favorito) {
+          this.personagemService.incrementarTotalFavoritos();
+        } else {
+          this.personagemService.decrementarTotalFavoritos();
+        }
+        this.personagemService.emitirTotalFavoritos();
+      });
   }
 
 }

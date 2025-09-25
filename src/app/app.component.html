@@ -9,7 +9,7 @@
       <button (click)="mudancaPagina()" class="botao" [ngClass]=" {'botao-tela-atual': !telaFavoritos}">
         <mat-icon>favorite</mat-icon>
         Favoritos
-        <span class="badge">3</span>
+        <span class="badge">{{totalFavoritos}}</span>
       </button>
     </div>
   </div>
