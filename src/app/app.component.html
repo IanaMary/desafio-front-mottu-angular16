@@ -4,13 +4,16 @@
     <div class="spacer"></div>
     <div class="botoes">
       <button (click)="mudancaPagina()" class="botao" [ngClass]="{'botao-tela-atual': telaFavoritos}">
-        <mat-icon>home</mat-icon> Início
+        <mat-icon>home</mat-icon> {{ 'INICIO' | translate }}
       </button>
       <button (click)="mudancaPagina()" class="botao" [ngClass]=" {'botao-tela-atual': !telaFavoritos}">
-        <mat-icon>favorite</mat-icon>
-        Favoritos
+        <mat-icon>favorite</mat-icon> {{ 'FAVORITOS' | translate }}
         <span class="badge">{{totalFavoritos}}</span>
       </button>
+    </div>
+    <div class="botoes">
+      <button class="botao" [ngClass]=" {'botao-tela-atual': idioma !== 'pt'}" (click)="mudarIdioma('pt')">PT</button>
+      <button class="botao" [ngClass]=" {'botao-tela-atual': idioma !== 'en'}" (click)="mudarIdioma('en')">EN</button>
     </div>
   </div>
   <div class="content" role="main">

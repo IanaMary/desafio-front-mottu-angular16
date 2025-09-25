@@ -1,0 +1,11 @@
+{
+  "INICIO": "Home",
+  "FAVORITOS": "Favorites",
+  "INICIO_SEM_FAVORITOS": "It seems you don't have any favorites yet",
+  "VOLTE_INICIO": "Go back to the home page and choose the best for you.",
+  "BOTAO_VOLTA_INICIO": "Back to Home",
+  "NADA_ENCONTRADO": "Nothing was found",
+  "TENTE_NOVA_BUSCA": "Try performing a new search.",
+  "PESQUISAR": "Search",
+  "ITENS_PAGINA": "Items per page"
+}

@@ -1,6 +1,6 @@
 <div class="box">
   <div class="box-titulo">
-    <span>Favoritos</span>
+    <span>{{ 'FAVORITOS' | translate }}</span>
   </div>
 
   <ng-container *ngIf="personagens && personagens.length > 0; else vazio">
@@ -27,9 +27,9 @@
 
   <ng-template #vazio>
     <div class="sem-personagens">
-      <span class="texto texto-principal">Parece que você ainda não tem favoritos</span>
-      <span class="texto texto-secundario"> Volte à página inicial e escolha os melhores para você.</span>
-      <button (click)="voltarInicio()" class="botoes botao">Voltar ao início</button>
+      <span class="texto texto-principal">{{ 'INICIO_SEM_FAVORITOS' | translate }}</span>
+      <span class="texto texto-secundario">{{ 'VOLTE_INICIO' | translate }}</span>
+      <button (click)="voltarInicio()" class="botoes botao">{{ 'BOTAO_VOLTA_INICIO' | translate }}</button>
     </div>
   </ng-template>
 </div>

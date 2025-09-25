@@ -12,10 +12,10 @@
   overflow: hidden;
 
   .toolbar {
-    height: 5%;
-    background-color: $color-core-border;
+    flex: 0 0 auto; // ocupa apenas o espaço necessário
     display: flex;
     align-items: center;
+    background-color: $color-core-border;
   }
 
   .content {
